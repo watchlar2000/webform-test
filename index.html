@@ -3,39 +3,19 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Webform iframe Test</title>
+		<title>Pave Test Site</title>
 	</head>
 	<body>
-		<h2>Test Page</h2>
-		<p>Current URL (including query params) should be captured as referringWebsite.</p>
+		<nav>
+			<a href="index.html">Home</a> |
+			<a
+				href="something.html?utm_source=google&utm_campaign=summer_promo&utm_medium=cpc&hello=wo
+  rld"
+				>Contact Us</a
+			>
+		</nav>
 
-		<iframe id="pss-web-form" src="https://weeklytest.pavementsoft.net/api/public/web-form/45" frameborder="0" style="display: block; width: 100%; border: none; overflow: hidden;"> </iframe>
-		<script>
-			document.addEventListener('DOMContentLoaded', () => {
-			  const iframe = document.getElementById('pss-web-form');
-
-			  if (!iframe) return;
-
-			  iframe.addEventListener('load', () => {
-			    iframe.contentWindow.postMessage(
-			      { action: 'SET_REFERRING_WEBSITE', referringWebsite: window.location.href },
-			      'https://weeklytest.pavementsoft.net'
-			    );
-			  });
-
-			  window.addEventListener('message', (event) => {
-			    switch (event.data?.action) {
-			      case 'SET_PSS_WEB_FORM_HEIGHT': {
-			        iframe.style.height = (event.data.height + 30) + 'px';
-			        break;
-			      }
-			      case 'PSS_WEB_FORM_REDIRECT': {
-			        window.location.href = event.data.redirectUrl;
-			        break;
-			      }
-			    }
-			  });
-			});
-		</script>
+		<h2>Welcome</h2>
+		<p>Click "Contact Us" in the menu to go to the contact page with query params.</p>
 	</body>
 </html>
