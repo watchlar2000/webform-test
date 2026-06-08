@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PSS Web Form — UTM Tracking Test</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    header {
+      background: #1b3a5c;
+      color: #fff;
+      padding: 1.25rem 2rem;
+    }
+
+    header h1 { font-size: 1.4rem; font-weight: 600; }
+    header p  { font-size: 0.9rem; opacity: 0.75; margin-top: 0.25rem; }
+
+    nav {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      padding: 0 2rem;
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 0.85rem 0;
+      color: #1b3a5c;
+      text-decoration: none;
+      font-size: 0.9rem;
+      border-bottom: 2px solid transparent;
+    }
+
+    nav a:hover  { border-color: #aac; }
+    nav a.active { border-color: #1b3a5c; font-weight: 600; }
+
+    .content {
+      max-width: 860px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+    }
+
+    h2 { font-size: 1.4rem; color: #1b3a5c; margin-bottom: 0.75rem; }
+
+    .panel {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .panel p {
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .panel p:last-child { margin-bottom: 0; }
+
+    .links { display: flex; flex-direction: column; gap: 0.6rem; }
+
+    .links a {
+      display: inline-block;
+      background: #1b3a5c;
+      color: #fff;
+      padding: 0.6rem 1.25rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      width: fit-content;
+    }
+
+    .links a:hover { background: #2e6da4; }
+    .links a.secondary { background: #555; }
+    .links a.secondary:hover { background: #333; }
+
+    .state-box {
+      background: #f0f4f8;
+      border: 1px solid #cdd8e3;
+      border-radius: 4px;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    .badge.hit  { background: #d4edda; color: #155724; }
+    .badge.miss { background: #f8d7da; color: #721c24; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid #eee; }
+    th { background: #f7f7f7; font-weight: 600; color: #444; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Acme Paving Co.</h1>
+  <p>PSS Web Form — UTM &amp; tracking parameter test page</p>
+</header>
+
+<nav>
+  <a href="index.html">Home (Embed)</a>
+  <a href="utm-test.html" class="active">UTM Tracking Test</a>
+</nav>
+
+<div class="content">
+
+  <!-- Current state -->
+  <div class="panel">
+    <h2>Current Page State</h2>
+    <p>Shows what the snippet would capture right now.</p>
+    <table>
+      <tr><th>Value</th><th>Source</th></tr>
+      <tr><td id="row-href">—</td><td><code>window.location.href</code></td></tr>
+      <tr><td id="row-session">—</td><td><code>sessionStorage (pss_referring_url_59)</code></td></tr>
+      <tr><td id="row-effective">—</td><td><strong>Effective referringWebsite (what the form receives)</strong></td></tr>
+    </table>
+  </div>
+
+  <!-- Test scenarios -->
+  <div class="panel">
+    <h2>Test Scenarios</h2>
+    <p>Each link navigates to <code>index.html</code> with different parameters so you can verify what gets stored in sessionStorage and sent to the form.</p>
+
+    <table style="margin-bottom: 1.25rem;">
+      <tr>
+        <th>Scenario</th>
+        <th>Expected referringWebsite</th>
+        <th>Link</th>
+      </tr>
+      <tr>
+        <td>No tracking params</td>
+        <td><code>window.location.href</code> of the landing page</td>
+        <td><a href="index.html#contact" style="color:#1b3a5c;">Open →</a></td>
+      </tr>
+      <tr>
+        <td>Google Ads (utm + gclid)</td>
+        <td>Full URL with UTM params stored in session</td>
+        <td><a href="index.html?utm_source=google&utm_medium=cpc&utm_campaign=paving&gclid=test_gclid_123#contact" style="color:#1b3a5c;">Open →</a></td>
+      </tr>
+      <tr>
+        <td>Facebook (fbclid)</td>
+        <td>Full URL with fbclid stored in session</td>
+        <td><a href="index.html?fbclid=test_fbclid_456#contact" style="color:#1b3a5c;">Open →</a></td>
+      </tr>
+      <tr>
+        <td>Email (utm_source=email)</td>
+        <td>Full URL with utm params stored in session</td>
+        <td><a href="index.html?utm_source=email&utm_medium=newsletter&utm_campaign=spring_promo#contact" style="color:#1b3a5c;">Open →</a></td>
+      </tr>
+      <tr>
+        <td>Clear session &amp; reload</td>
+        <td>Session cleared — falls back to window.location.href</td>
+        <td><a href="#" onclick="sessionStorage.removeItem('pss_referring_url_59'); location.reload(); return false;" style="color:#c00;">Clear →</a></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- How to verify -->
+  <div class="panel">
+    <h2>How to Verify</h2>
+    <p>1. Click a test link above — it opens <code>index.html</code> with tracking params.</p>
+    <p>2. Submit the form on that page.</p>
+    <p>3. Check the resulting lead in PSS — the <strong>Referring Website</strong> field should contain the full URL with the tracking params (not just the plain page URL).</p>
+    <p>4. Use browser DevTools → Application → Session Storage to watch <code>pss_referring_url_59</code> update in real time.</p>
+  </div>
+
+</div>
+
+<script>
+  const SESSION_KEY = 'pss_referring_url_59';
+
+  const update = () => {
+    const session = sessionStorage.getItem(SESSION_KEY);
+    document.getElementById('row-href').textContent    = window.location.href;
+    document.getElementById('row-session').textContent = session || '(not set)';
+    document.getElementById('row-effective').textContent = session || window.location.href;
+  };
+
+  update();
+</script>
+
+</body>
+</html>
